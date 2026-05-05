@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Manage Problems — DSA Arena{% endblock %}
+
+{% block lightrays %}
+<div class="light-rays-bg" id="lightRaysBg"></div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4 reveal-on-scroll">
+    <h1 class="mb-0 page-header">
+        <i class="bi bi-journal-code me-2" style="color:var(--cyan);"></i>
+        <span class="gradient-text">Problems</span>
+    </h1>
+    <a href="{{ url_for('admin.add_problem') }}" class="btn btn-primary px-4">
+        <i class="bi bi-plus-circle me-2"></i>Add Problem
+    </a>
+</div>
+
+{% if problems %}
+<div class="card border-0 shadow reveal-on-scroll" style="--i:1;">
+    <div class="table-responsive">
+        <table class="table table-hover mb-0">
+            <thead>
+                <tr>
+                    <th class="ps-4">#</th>
+                    <th>Title</th>
+                    <th>Difficulty</th>
+                    <th>Points</th>
+                    <th>PDF</th>
+                    <th>Submissions</th>
+                    <th class="text-end pe-4">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for p in problems %}
+                <tr>
+                    <td class="ps-4 text-muted">{{ p.id }}</td>
+                    <td class="fw-semibold">{{ p.title }}</td>
+                    <td>
+                        {% if p.difficulty == 'Easy' %}
+                        <span class="badge-difficulty easy">Easy</span>
+                        {% elif p.difficulty == 'Medium' %}
+                        <span class="badge-difficulty medium">Medium</span>
+                        {% else %}
+                        <span class="badge-difficulty hard">Hard</span>
+                        {% endif %}
+                    </td>
+                    <td><span style="color:var(--cyan);" class="fw-semibold">{{ p.points }}</span></td>
+                    <td>
+                        {% if p.pdf_path %}
+                        <i class="bi bi-file-pdf-fill text-danger" title="PDF uploaded"></i>
+                        {% else %}
+                        <i class="bi bi-x-circle text-muted" title="No PDF"></i>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <span class="text-muted">{{ p.submissions|length }}</span>
+                    </td>
+                    <td class="text-end pe-4">
+                        <form method="post" action="{{ url_for('admin.delete_problem', pid=p.id) }}"
+                            onsubmit="return confirm('Delete problem \'{{ p.title }}\'? This cannot be undone.')">
+                            <button type="submit" class="btn btn-sm btn-outline-danger">
+                                <i class="bi bi-trash me-1"></i>Delete
+                            </button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% else %}
+<div class="text-center py-5 reveal-on-scroll">
+    <div class="empty-state-icon">📭</div>
+    <h4 class="mt-3 text-muted">No problems yet</h4>
+    <a href="{{ url_for('admin.add_problem') }}" class="btn btn-primary mt-2">Add Your First Problem</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof window.initLightRays === 'function') {
+            window.initLightRays('lightRaysBg', {
+                raysOrigin: 'top-left',
+                raysColor: '#f59e0b',
+                raysSpeed: 0.5,
+                lightSpread: 0.6,
+                rayLength: 1.4,
+                followMouse: true,
+                mouseInfluence: 0.15
+            });
+        }
+    });
+</script>
+{% endblock %}

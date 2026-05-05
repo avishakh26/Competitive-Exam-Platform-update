@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+{% block title %}My Submissions — DSA Arena{% endblock %}
+
+{% block lightrays %}
+<div class="light-rays-bg" id="lightRaysBg"></div>
+{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4 reveal-on-scroll">
+    <div>
+        <h1 class="mb-1 page-header">
+            <i class="bi bi-send me-2" style="color:var(--cyan);"></i>
+            <span class="gradient-text">My Submissions</span>
+        </h1>
+        <p class="text-muted mb-0">{{ submissions|length }} submission{{ 's' if submissions|length != 1 else '' }}</p>
+    </div>
+    <a href="{{ url_for('user.problems') }}" class="btn btn-outline-primary">
+        <i class="bi bi-plus me-1"></i>Solve a Problem
+    </a>
+</div>
+
+{% if submissions %}
+<div class="row g-3">
+    {% for sub in submissions %}
+    <div class="col-12 reveal-on-scroll" style="--i:{{ loop.index }};">
+        <div class="card border-0 shadow-sm submission-card" style="--i:{{ loop.index }};">
+            <div class="card-body p-4">
+                <div class="d-flex flex-wrap align-items-center gap-3">
+                    <!-- Status Badge -->
+                    <div class="flex-shrink-0">
+                        {% if sub.status == 'Pending' %}
+                        <span class="badge bg-warning text-dark px-3 py-2 fs-6 badge-pending">
+                            <i class="bi bi-hourglass-split me-1"></i>Pending
+                        </span>
+                        {% elif sub.status == 'Approved' %}
+                        <span class="badge bg-success px-3 py-2 fs-6">
+                            <i class="bi bi-check-circle me-1"></i>Approved
+                        </span>
+                        {% else %}
+                        <span class="badge bg-danger px-3 py-2 fs-6">
+                            <i class="bi bi-x-circle me-1"></i>Rejected
+                        </span>
+                        {% endif %}
+                    </div>
+
+                    <!-- Problem Info -->
+                    <div class="flex-grow-1">
+                        <a href="{{ url_for('user.problem_detail', pid=sub.problem.id) }}"
+                            class="h6 fw-semibold text-decoration-none d-block mb-1" style="color:var(--text-primary);">
+                            {{ sub.problem.title }}
+                        </a>
+                        <small class="text-muted">
+                            <i class="bi bi-clock me-1"></i>{{ sub.timestamp.strftime('%b %d, %Y at %H:%M') }}
+                            &nbsp;·&nbsp;
+                            {% if sub.file_path %}
+                            <i class="bi bi-file-code me-1"></i>{{ sub.file_path.split('\\')[-1].split('/')[-1] }}
+                            {% endif %}
+                        </small>
+                    </div>
+
+                    <!-- Points -->
+                    <div class="text-end">
+                        {% if sub.status == 'Approved' %}
+                        <span class="fw-bold" style="color:var(--green);">+{{ sub.problem.points }} pts</span>
+                        {% else %}
+                        <span class="text-muted">{{ sub.problem.points }} pts</span>
+                        {% endif %}
+                    </div>
+                </div>
+
+                <!-- Feedback -->
+                {% if sub.feedback and sub.status != 'Pending' %}
+                <div class="mt-3 pt-3 border-top" style="border-color:var(--border-subtle) !important;">
+                    <small class="text-muted fw-semibold d-block mb-1">
+                        <i class="bi bi-chat-text me-1"></i>Admin Feedback:
+                    </small>
+                    <p class="mb-0 text-muted small">{{ sub.feedback }}</p>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<div class="text-center py-5 reveal-on-scroll">
+    <div class="empty-state-icon">📤</div>
+    <h4 class="mt-3 text-muted">No submissions yet</h4>
+    <p class="text-muted">Pick a problem and start competing!</p>
+    <a href="{{ url_for('user.problems') }}" class="btn btn-primary mt-2">Browse Problems</a>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof window.initLightRays === 'function') {
+            window.initLightRays('lightRaysBg', {
+                raysOrigin: 'top-center',
+                raysColor: '#00d4ff',
+                raysSpeed: 0.7,
+                lightSpread: 0.5,
+                rayLength: 1.2,
+                followMouse: true,
+                mouseInfluence: 0.1,
+                noiseAmount: 0.02
+            });
+        }
+    });
+</script>
+{% endblock %}

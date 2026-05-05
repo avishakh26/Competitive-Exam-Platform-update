@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+{% block title %}{{ problem.title }} — DSA Arena{% endblock %}
+
+{% block lightrays %}
+<div class="light-rays-bg" id="lightRaysBg"></div>
+{% endblock %}
+
+{% block content %}
+<!-- Breadcrumb -->
+<nav aria-label="breadcrumb" class="mb-3 reveal-on-scroll">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('user.problems') }}">Problems</a></li>
+        <li class="breadcrumb-item active">{{ problem.title }}</li>
+    </ol>
+</nav>
+
+<!-- Problem Header -->
+<div class="card border-0 shadow mb-4 reveal-on-scroll" style="--i:1;border-top:3px solid var(--cyan) !important;">
+    <div class="card-body p-4">
+        <div class="d-flex flex-wrap align-items-start gap-3 mb-3">
+            <div class="flex-grow-1">
+                <h1 class="h2 fw-bold mb-2" style="font-family:'Outfit',sans-serif;">{{ problem.title }}</h1>
+                <div class="d-flex flex-wrap gap-2">
+                    {% if problem.difficulty == 'Easy' %}
+                    <span class="badge-difficulty easy">Easy</span>
+                    {% elif problem.difficulty == 'Medium' %}
+                    <span class="badge-difficulty medium">Medium</span>
+                    {% else %}
+                    <span class="badge-difficulty hard">Hard</span>
+                    {% endif %}
+                    <span class="badge bg-primary bg-opacity-25 text-primary px-3 py-2">
+                        <i class="bi bi-star-fill me-1"></i>{{ problem.points }} points
+                    </span>
+                </div>
+            </div>
+            {% if not has_pending %}
+            <a href="{{ url_for('user.submit', pid=problem.id) }}" class="btn btn-primary btn-lg px-4">
+                <i class="bi bi-upload me-2"></i>Submit Solution
+            </a>
+            {% else %}
+            <button class="btn btn-secondary btn-lg px-4" disabled>
+                <i class="bi bi-hourglass-split me-2"></i>Pending Review
+            </button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<!-- PDF Viewer -->
+{% if problem.pdf_path %}
+<div class="card border-0 shadow mb-4 reveal-on-scroll" style="--i:2;">
+    <div class="card-header d-flex align-items-center gap-2 py-3">
+        <i class="bi bi-file-pdf-fill text-danger fs-5"></i>
+        <h5 class="mb-0 fw-semibold">Problem Statement</h5>
+    </div>
+    <div class="card-body p-0">
+        <iframe src="{{ url_for('user.serve_pdf', pid=problem.id) }}" class="pdf-iframe w-100"
+            style="height: 600px; border: none; border-radius: 0 0 var(--radius-lg) var(--radius-lg);" title="Problem Statement PDF">
+            <p class="p-4">Your browser cannot display PDFs.
+                <a href="{{ url_for('user.serve_pdf', pid=problem.id) }}">Open PDF</a>
+            </p>
+        </iframe>
+    </div>
+</div>
+{% else %}
+<div class="alert alert-secondary reveal-on-scroll" style="--i:2;">
+    <i class="bi bi-info-circle me-2"></i>No problem statement PDF has been uploaded yet.
+</div>
+{% endif %}
+
+<!-- Submit Call-to-Action -->
+<div class="reveal-on-scroll" style="--i:3;">
+{% if not has_pending %}
+<div class="text-end">
+    <a href="{{ url_for('user.submit', pid=problem.id) }}" class="btn btn-primary px-4">
+        <i class="bi bi-upload me-2"></i>Submit Your Solution
+    </a>
+</div>
+{% else %}
+<div class="alert alert-warning">
+    <i class="bi bi-hourglass-split me-2"></i>
+    You have a <strong>pending submission</strong> for this problem.
+    Wait for admin review before submitting again.
+    <a href="{{ url_for('user.my_submissions') }}" class="alert-link ms-2">View submissions →</a>
+</div>
+{% endif %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof window.initLightRays === 'function') {
+            window.initLightRays('lightRaysBg', {
+                raysOrigin: 'top-center',
+                raysColor: '#00d4ff',
+                raysSpeed: 0.8,
+                lightSpread: 0.6,
+                rayLength: 1.5,
+                followMouse: true,
+                mouseInfluence: 0.15,
+                noiseAmount: 0.03,
+                distortion: 0.03
+            });
+        }
+    });
+</script>
+{% endblock %}

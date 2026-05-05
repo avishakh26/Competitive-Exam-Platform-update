@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+{% block title %}Add Problem — DSA Arena{% endblock %}
+
+{% block lightrays %}
+<div class="light-rays-bg" id="lightRaysBg"></div>
+{% endblock %}
+
+{% block content %}
+<nav aria-label="breadcrumb" class="mb-3 reveal-on-scroll">
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item"><a href="{{ url_for('admin.manage_problems') }}">Problems</a></li>
+        <li class="breadcrumb-item active">Add Problem</li>
+    </ol>
+</nav>
+
+<div class="row justify-content-center">
+    <div class="col-lg-7">
+        <div class="card border-0 shadow reveal-on-scroll" style="--i:1;">
+            <div class="card-header py-3">
+                <h4 class="mb-0 fw-bold" style="font-family:'Outfit',sans-serif;">
+                    <i class="bi bi-plus-circle me-2" style="color:var(--cyan);"></i>Add New Problem
+                </h4>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" enctype="multipart/form-data" novalidate>
+                    <div class="mb-3" style="animation:fadeInUp .5s ease .1s both;">
+                        <label class="form-label fw-semibold" for="title">Problem Title</label>
+                        <input type="text" id="title" name="title" class="form-control form-control-lg"
+                            placeholder="e.g. Binary Search Tree Insertion" required autofocus>
+                    </div>
+                    <div class="row g-3 mb-3">
+                        <div class="col-md-6" style="animation:fadeInUp .5s ease .15s both;">
+                            <label class="form-label fw-semibold" for="difficulty">Difficulty</label>
+                            <select id="difficulty" name="difficulty" class="form-select form-select-lg">
+                                <option value="Easy">🟢 Easy</option>
+                                <option value="Medium" selected>🟠 Medium</option>
+                                <option value="Hard">🔴 Hard</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6" style="animation:fadeInUp .5s ease .2s both;">
+                            <label class="form-label fw-semibold" for="points">Points</label>
+                            <input type="number" id="points" name="points" class="form-control form-control-lg" min="1"
+                                max="1000" placeholder="e.g. 100" required>
+                        </div>
+                    </div>
+                    <div class="mb-4" style="animation:fadeInUp .5s ease .25s both;">
+                        <label class="form-label fw-semibold" for="pdf_file">
+                            <i class="bi bi-file-pdf me-1 text-danger"></i>Problem PDF <span
+                                class="text-muted fw-normal">(Optional)</span>
+                        </label>
+                        <input type="file" id="pdf_file" name="pdf_file" class="form-control form-control-lg"
+                            accept=".pdf">
+                        <div class="form-text">Only PDF files accepted. Max 5 MB.</div>
+                    </div>
+
+                    <div class="d-flex gap-3" style="animation:fadeInUp .5s ease .3s both;">
+                        <a href="{{ url_for('admin.manage_problems') }}"
+                            class="btn btn-outline-secondary px-4">Cancel</a>
+                        <button type="submit" class="btn btn-primary px-4 fw-semibold flex-grow-1">
+                            <i class="bi bi-check-circle me-2"></i>Create Problem
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof window.initLightRays === 'function') {
+            window.initLightRays('lightRaysBg', {
+                raysOrigin: 'top-left',
+                raysColor: '#f59e0b',
+                raysSpeed: 0.5,
+                lightSpread: 0.6,
+                rayLength: 1.4,
+                followMouse: true,
+                mouseInfluence: 0.15
+            });
+        }
+    });
+</script>
+{% endblock %}

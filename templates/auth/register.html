@@ -1,0 +1,95 @@
+{% extends "base.html" %}
+{% block title %}Register — DSA Arena{% endblock %}
+
+{% block navbar %}{% endblock %}
+
+{% block content %}
+<div class="auth-page">
+    <div class="auth-bg">
+        <canvas id="particleBg"></canvas>
+    </div>
+
+    <div class="auth-content">
+        <div class="container">
+            <div class="row align-items-center justify-content-center g-0" style="min-height:100vh;">
+                <!-- Brand Side -->
+                <div class="col-lg-5 auth-brand-side">
+                    <div style="animation:fadeInLeft .8s ease both;">
+                        <div style="font-size:5rem;margin-bottom:1rem;animation:float 3s ease-in-out infinite;">🏆</div>
+                        <h2>Join the Arena</h2>
+                        <p class="mt-2" style="max-width:300px;">Create your account and start competing against the best programmers.</p>
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center gap-3 mb-3 justify-content-center" style="animation:fadeInUp .5s ease .3s both;">
+                                <i class="bi bi-check-circle-fill" style="color:var(--green);font-size:1.2rem;"></i>
+                                <span class="text-muted small">Real-time leaderboard ranking</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 mb-3 justify-content-center" style="animation:fadeInUp .5s ease .4s both;">
+                                <i class="bi bi-check-circle-fill" style="color:var(--green);font-size:1.2rem;"></i>
+                                <span class="text-muted small">Multiple programming languages</span>
+                            </div>
+                            <div class="d-flex align-items-center gap-3 justify-content-center" style="animation:fadeInUp .5s ease .5s both;">
+                                <i class="bi bi-check-circle-fill" style="color:var(--green);font-size:1.2rem;"></i>
+                                <span class="text-muted small">Expert feedback on submissions</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Register Form -->
+                <div class="col-lg-5 auth-form-side">
+                    <div class="auth-card card border-0 p-4 mx-auto">
+                        <div class="text-center mb-4">
+                            <div class="auth-icon mb-3">🏆</div>
+                            <h1 class="h3 fw-bold" style="font-family:'Outfit',sans-serif;">Join the Arena</h1>
+                            <p class="text-muted small">Create your competitor account</p>
+                        </div>
+
+                        <form method="post" novalidate>
+                            <div class="mb-3" style="animation:fadeInUp .5s ease .1s both;">
+                                <label class="form-label fw-semibold" for="username">
+                                    <i class="bi bi-person me-1"></i>Display Name
+                                </label>
+                                <input type="text" id="username" name="username" class="form-control form-control-lg"
+                                    placeholder="Your display name" required autofocus>
+                            </div>
+                            <div class="mb-3" style="animation:fadeInUp .5s ease .15s both;">
+                                <label class="form-label fw-semibold" for="student_id">
+                                    <i class="bi bi-person-badge me-1"></i>Student ID
+                                </label>
+                                <input type="text" id="student_id" name="student_id" class="form-control form-control-lg"
+                                    placeholder="e.g. CSE-2024-001" required>
+                                <div class="form-text">Must be unique across all accounts.</div>
+                            </div>
+                            <div class="mb-3" style="animation:fadeInUp .5s ease .2s both;">
+                                <label class="form-label fw-semibold" for="password">
+                                    <i class="bi bi-lock me-1"></i>Password
+                                </label>
+                                <input type="password" id="password" name="password" class="form-control form-control-lg"
+                                    placeholder="Choose a strong password" required>
+                            </div>
+                            <div class="mb-4" style="animation:fadeInUp .5s ease .25s both;">
+                                <label class="form-label fw-semibold" for="confirm_password">
+                                    <i class="bi bi-lock-fill me-1"></i>Confirm Password
+                                </label>
+                                <input type="password" id="confirm_password" name="confirm_password"
+                                    class="form-control form-control-lg" placeholder="Repeat your password" required>
+                            </div>
+
+                            <div style="animation:fadeInUp .5s ease .3s both;">
+                                <button type="submit" class="btn btn-primary btn-lg w-100 fw-semibold" id="registerBtn">
+                                    <i class="bi bi-person-plus me-2"></i>Create Account
+                                </button>
+                            </div>
+                        </form>
+
+                        <hr class="my-4" style="border-color:var(--border-subtle);">
+                        <p class="text-center text-muted small mb-0" style="animation:fadeInUp .5s ease .35s both;">
+                            Already competing? <a href="{{ url_for('auth.login') }}" class="fw-semibold" style="color:var(--cyan);">Sign in</a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
