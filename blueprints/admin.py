@@ -120,6 +120,44 @@ def delete_problem(pid):
 
 
 # ---------------------------------------------------------------------------
+# Manage Users
+# ---------------------------------------------------------------------------
+@admin_bp.route("/users")
+@admin_required
+def manage_users():
+    users = User.query.order_by(User.created_at.desc()).all()
+    return render_template("admin/manage_users.html", users=users)
+
+
+# ---------------------------------------------------------------------------
+# Delete (Kick) User
+# ---------------------------------------------------------------------------
+@admin_bp.route("/users/delete/<int:uid>", methods=["POST"])
+@admin_required
+def delete_user(uid):
+    user = User.query.get_or_404(uid)
+    username = user.username
+
+    try:
+        # Remove all related submission files before deleting rows.
+        related_submissions = Submission.query.filter_by(user_id=user.id).all()
+        for sub in related_submissions:
+            if sub.file_path and os.path.exists(sub.file_path):
+                os.remove(sub.file_path)
+            db.session.delete(sub)
+
+        db.session.delete(user)
+        db.session.commit()
+        flash(f"User '{username}' has been kicked from the site.", "warning")
+    except (OSError, SQLAlchemyError) as exc:
+        db.session.rollback()
+        flash(f"Could not kick '{username}': {exc}", "danger")
+
+    return redirect(url_for("admin.manage_users"))
+
+
+
+# ---------------------------------------------------------------------------
 # Review Queue — pending submissions
 # ---------------------------------------------------------------------------
 @admin_bp.route("/review")
