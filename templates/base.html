@@ -16,8 +16,8 @@
         href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;600&family=Outfit:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
     <!-- Custom CSS -->
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/target-cursor.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}?v=2">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/target-cursor.css') }}?v=2">
     {% block head %}{% endblock %}
 </head>
 
@@ -158,13 +158,13 @@
     <!-- GSAP for TargetCursor -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <!-- TargetCursor -->
-    <script src="{{ url_for('static', filename='js/targetCursor.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/targetCursor.js') }}?v=2"></script>
     <!-- LightRays -->
-    <script src="{{ url_for('static', filename='js/lightRays.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/lightRays.js') }}?v=2"></script>
     <!-- Particles -->
-    <script src="{{ url_for('static', filename='js/particles.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/particles.js') }}?v=2"></script>
     <!-- Main UI Scripts -->
-    <script src="{{ url_for('static', filename='js/main.js') }}?v=1"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}?v=2"></script>
     {% block scripts %}{% endblock %}
 </body>
 
