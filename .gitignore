@@ -1,7 +1,36 @@
+# Python
 __pycache__/
 *.pyc
-.venv/
+*.py[cod]
+*$py.class
 venv/
+.venv/
+env/
+
+# Node.js & React (Frontend)
 frontend/node_modules/
 frontend/dist/
+node_modules/
+
+# Environment Variables
+.env
+.env.*
+
+# Databases
+arena.db
+*.db
+*.sqlite3
+
+# Uploads
+uploads/problems/*
+!uploads/problems/.gitkeep
+uploads/submissions/*
+!uploads/submissions/.gitkeep
+
+# Misc / Project Specific
 *.log
+cookies.txt
+
+# OS Files
+.DS_Store
+Thumbs.db
